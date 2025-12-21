@@ -8,6 +8,9 @@ services:
       POSTGRES_DB: demo
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/home/krg/Desktop
+
     ports:
       - "5432:5432"
     networks:
@@ -19,11 +22,9 @@ services:
     networks:
       - my-network
 
-
+volumes:
+  postgres-data:
 
 networks:
   my-network:
     driver: bridge
-
-
-
