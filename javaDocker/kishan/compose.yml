@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+  spring-app:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+
+
+
+networks:
+  my-network:
+    driver: bridge
+
+
+
