@@ -6,7 +6,7 @@ const PORT = 8080;
 
 app.get("/", (req, res) => {
   res.json({
-    message: "hello from the server",
+    message: "hello from the server and ci/cd updated!!",
   });
 });
 
