@@ -14,3 +14,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Load Balancer is running on port ${PORT}`);
 });
+
+//  autocannon -c30 -d10 http://localhost:3000 used to make concurrent requests to test load balancer (30 concurrent connections for 10 seconds)
