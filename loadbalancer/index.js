@@ -5,7 +5,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-  res.send("Hello from the Load Balancer1!");
+  return res.json({
+    message: "Hello from Load Balancer",
+    instanceId: process.env.INSTANCE_ID || "unknown",
+  });
 });
 
 app.listen(PORT, () => {
