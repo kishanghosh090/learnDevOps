@@ -3,7 +3,7 @@ name: Deploye Nodejs Application to digital ocean
 on:
   push:
     branches:
-      - main
+      #- main
 
 jobs:
   deploye:
