@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Chat - Ollama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       * {
         margin: 0;
@@ -12,92 +18,213 @@
       }
 
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 70%
+        );
+        top: -250px;
+        right: -250px;
+        border-radius: 50%;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      body::after {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.08) 0%,
+          transparent 70%
+        );
+        bottom: -150px;
+        left: -150px;
+        border-radius: 50%;
+        animation: float 15s infinite ease-in-out reverse;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-30px) scale(1.1);
+        }
       }
 
       .container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        max-width: 800px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        box-shadow:
+          0 30px 90px rgba(0, 0, 0, 0.25),
+          0 0 1px rgba(0, 0, 0, 0.1);
+        max-width: 850px;
         width: 100%;
-        padding: 40px;
+        padding: 48px;
+        position: relative;
+        z-index: 1;
+        animation: slideUp 0.6s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       h1 {
-        color: #333;
-        margin-bottom: 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 40px;
         text-align: center;
-        font-size: 2em;
+        font-size: 2.5em;
+        font-weight: 700;
+        letter-spacing: -0.02em;
       }
 
       .input-section {
-        margin-bottom: 20px;
+        margin-bottom: 24px;
       }
 
       label {
         display: block;
-        margin-bottom: 10px;
-        color: #555;
+        margin-bottom: 12px;
+        color: #4a5568;
         font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
       }
 
       textarea {
         width: 100%;
-        min-height: 120px;
-        padding: 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 10px;
+        min-height: 140px;
+        padding: 18px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
         font-size: 16px;
         font-family: inherit;
         resize: vertical;
-        transition: border-color 0.3s;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: #f7fafc;
+        color: #2d3748;
+        line-height: 1.6;
       }
 
       textarea:focus {
         outline: none;
         border-color: #667eea;
+        background: white;
+        box-shadow:
+          0 0 0 4px rgba(102, 126, 234, 0.1),
+          0 8px 16px rgba(102, 126, 234, 0.08);
+        transform: translateY(-2px);
+      }
+
+      textarea::placeholder {
+        color: #a0aec0;
       }
 
       button {
         width: 100%;
-        padding: 15px;
+        padding: 18px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
-        border-radius: 10px;
+        border-radius: 16px;
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
-        transition:
-          transform 0.2s,
-          box-shadow 0.2s;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      button:hover::before {
+        opacity: 1;
       }
 
       button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
       }
 
       button:active {
-        transform: translateY(0);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.35);
       }
 
       button:disabled {
-        background: #ccc;
+        background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
         cursor: not-allowed;
         transform: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
 
       .response-section {
-        margin-top: 30px;
+        margin-top: 32px;
         display: none;
+        animation: fadeIn 0.4s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .response-section.show {
@@ -105,69 +232,101 @@
       }
 
       .response-box {
-        background: #f8f9fa;
-        border-left: 4px solid #667eea;
-        padding: 20px;
-        border-radius: 10px;
-        min-height: 100px;
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        border: 2px solid #e2e8f0;
+        border-left: 5px solid #667eea;
+        padding: 24px;
+        border-radius: 16px;
+        min-height: 120px;
+        max-height: 450px;
+        overflow-y: auto;
         white-space: pre-wrap;
         word-wrap: break-word;
-        color: #333;
-        line-height: 1.6;
+        color: #2d3748;
+        line-height: 1.8;
+        font-size: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
       }
 
-      .loading {
-        text-align: center;
-        color: #667eea;
-        font-style: italic;
-        padding: 20px;
+      .response-box::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .response-box::-webkit-scrollbar-track {
+        background: #edf2f7;
+        border-radius: 10px;
+      }
+
+      .response-box::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+      }
+
+      .response-box::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
       }
 
       .error {
-        background: #ffe6e6;
-        border-left-color: #dc3545;
-        color: #dc3545;
+        background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+        border-left-color: #fc8181;
+        color: #c53030;
+        border-color: #feb2b2;
       }
 
-      .spinner {
-        border: 3px solid #f3f3f3;
-        border-top: 3px solid #667eea;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto;
+      .streaming::after {
+        content: "▊";
+        color: #667eea;
+        animation: blink 1s infinite;
+        font-weight: bold;
       }
 
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
         }
+        51%,
         100% {
-          transform: rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Mobile responsive */
+      @media (max-width: 640px) {
+        .container {
+          padding: 32px 24px;
+        }
+
+        h1 {
+          font-size: 2em;
+        }
+
+        textarea {
+          min-height: 120px;
         }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>🤖 AI Chat with Ollama</h1>
+      <h1>✨ AI Chat with Ollama</h1>
 
       <div class="input-section">
-        <label for="promptInput">Enter your prompt:</label>
+        <label for="promptInput">💭 Your Prompt</label>
         <textarea
           id="promptInput"
-          placeholder="Ask me anything..."
+          placeholder="Ask me anything... (Press Enter to submit, Shift+Enter for new line)"
           autofocus
         ></textarea>
       </div>
 
       <button id="generateBtn" onclick="generateText()">
-        Generate Response
+        🚀 Generate Response
       </button>
 
       <div id="responseSection" class="response-section">
-        <label>AI Response:</label>
+        <label>🤖 AI Response</label>
         <div id="responseBox" class="response-box"></div>
       </div>
     </div>
@@ -196,41 +355,48 @@
 
         // Show loading state
         generateBtn.disabled = true;
-        generateBtn.textContent = "Generating...";
+        generateBtn.textContent = "✨ Generating...";
         responseSection.classList.add("show");
-        responseBox.className = "response-box";
-        responseBox.innerHTML =
-          '<div class="spinner"></div><div class="loading">AI is thinking...</div>';
+        responseBox.className = "response-box streaming";
+        responseBox.textContent = "";
 
         try {
-          const response = await fetch(
-            "http://165.22.209.126:3000/api/ai/generate",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ prompt }),
+          const response = await fetch("/api/ai/stream", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          );
+            body: JSON.stringify({ prompt }),
+          });
 
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
 
-          const data = await response.json();
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
 
-          // Display response
-          responseBox.className = "response-box";
-          responseBox.textContent =
-            data.response || data.message || "No response received";
+          while (true) {
+            const { done, value } = await reader.read();
+
+            if (done) {
+              responseBox.classList.remove("streaming");
+              break;
+            }
+
+            const text = decoder.decode(value, { stream: true });
+            responseBox.textContent += text;
+
+            // Auto-scroll to bottom
+            responseBox.scrollTop = responseBox.scrollHeight;
+          }
         } catch (error) {
           console.error("Error:", error);
           responseBox.className = "response-box error";
-          responseBox.textContent = `Error: ${error.message}. Make sure the server is running and Ollama is available.`;
+          responseBox.textContent = `❌ Error: ${error.message}\n\nMake sure the server is running and Ollama is available.`;
         } finally {
           generateBtn.disabled = false;
-          generateBtn.textContent = "Generate Response";
+          generateBtn.textContent = "🚀 Generate Response";
         }
       }
     </script>

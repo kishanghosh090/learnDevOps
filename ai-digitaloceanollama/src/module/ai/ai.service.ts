@@ -5,7 +5,7 @@ export const generateWithOllama = async (prompt: string) => {
     console.log("Sending request to Ollama with prompt:", prompt);
 
     const response = await axios.post(
-      "http://127.0.0.1:11434/api/generate",
+      "http://ollama:11434/api/generate",
       {
         model: "phi",
         prompt,
@@ -26,4 +26,23 @@ export const generateWithOllama = async (prompt: string) => {
     }
     throw error;
   }
+};
+
+export const streamFromOllama = async (prompt: string) => {
+  console.log("Starting stream for prompt:", prompt);
+
+  const response = await axios.post(
+    "http://ollama:11434/api/generate",
+    {
+      model: "phi",
+      prompt,
+      stream: true,
+    },
+    {
+      responseType: "stream",
+      timeout: 120000,
+    },
+  );
+
+  return response;
 };

@@ -1,31 +1,74 @@
-import { Request, Response } from "express";
-import { generateWithOllama } from "./ai.service";
+// import { Request, Response } from "express";
+// import { generateWithOllama } from "./ai.service";
 
-export const generateText = async (req: Request, res: Response) => {
+// export const generateText = async (req: Request, res: Response) => {
+//   try {
+//     const { prompt } = req.body;
+
+//     if (!prompt) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Prompt is required",
+//       });
+//     }
+
+//     const result = await generateWithOllama(prompt);
+
+//     return res.status(200).json({
+//       success: true,
+//       response: result,
+//     });
+//   } catch (error: any) {
+//     console.error("AI error:", error);
+//     console.error("Error details:", error.response?.data || error.message);
+
+//     return res.status(500).json({
+//       success: false,
+//       message: "AI generation failed",
+//       error: error.response?.data || error.message,
+//     });
+//   }
+// };
+
+
+import { Request, Response } from "express";
+import { streamFromOllama } from "./ai.service";
+
+export const streamGenerate = async (req: Request, res: Response) => {
   try {
     const { prompt } = req.body;
 
     if (!prompt) {
       return res.status(400).json({
-        success: false,
-        message: "Prompt is required",
+        message: "Prompt required",
       });
     }
 
-    const result = await generateWithOllama(prompt);
+    const ollamaResponse = await streamFromOllama(prompt);
 
-    return res.status(200).json({
-      success: true,
-      response: result,
-    });
-  } catch (error: any) {
-    console.error("AI error:", error);
-    console.error("Error details:", error.response?.data || error.message);
+    res.setHeader("Content-Type", "text/plain");
+    res.setHeader("Transfer-Encoding", "chunked");
 
-    return res.status(500).json({
-      success: false,
-      message: "AI generation failed",
-      error: error.response?.data || error.message,
+    ollamaResponse.data.on("data", (chunk: Buffer) => {
+      const lines = chunk.toString().split("\n");
+
+      for (const line of lines) {
+        if (!line.trim()) continue;
+
+        const parsed = JSON.parse(line);
+
+        if (parsed.response) {
+          res.write(parsed.response);
+        }
+      }
     });
+
+    ollamaResponse.data.on("end", () => {
+      res.end();
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.end("Streaming failed");
   }
 };

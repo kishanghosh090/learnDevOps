@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { generateText } from "./ai.controller";
+import { streamGenerate } from "./ai.controller";
 
 const router = Router();
 
-router.post("/generate", generateText);
+// router.post("/generate", generateText);
+router.post("/stream", streamGenerate);
 
 export default router;
