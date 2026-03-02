@@ -1,0 +1,100 @@
+version: 3.2
+chai_type: masala_chai
+servings: 2
+chai_ing:
+  base: milk
+
+chai_name: masala_chai
+description: "chai with alychi"
+tagline: "best time ever"
+
+brewing_instruction: |
+  boil water
+  add tea leavs
+  add milk
+
+brewing_instruction_two: >
+  boil water
+  add tea leavs
+  add milk
+
+cups_per_day: 3
+
+is_hot: true
+add_sugar: yes
+add_salt: no
+instant: off
+
+# num & ~ are name
+sweetner: null
+alternative_mailk: ~
+
+
+morning_brew: 2025-01-15
+morning_brew_two: 2025-01-15 12:10:23
+
+# array
+spices:
+  - ginger
+  - cloves
+  - black tea
+
+spices_two: [cardamon, ginger]  
+
+chai_categories:
+  - name : traditional
+    varities:
+      - masala chai
+      - ginger chai
+      - cardamon chai
+  - name : mordarn chai
+    varities:
+      - vanila chai
+      - alychi chai
+
+
+masala_chai2:
+  ingre:
+    tea: black
+    liquide: 
+      water: 200ml
+      milk: 100ml
+    spices:
+      ginger: 1_inch
+      cinnamon: 1_stick
+  preparation:
+    method: simmer
+    duration: 5_minutes
+
+chai_menu:
+  - name: masala chai
+    price: 30
+    size: regular
+  - name: masala chai
+    price: 30
+    size: regular
+
+default_chai_beta: &default_base
+  tea: black_tea
+  water: 200ml
+  brewing_time: 5
+
+moring_chai:
+  <<: *default_base
+  milk: 100ml  
+
+
+
+
+# 12345 cast as string to preserve leading zeros if any
+zip_code: !!str 12345
+
+# 10 cast as int
+count: !!int "10"
+
+# ? used to denote a set, where the keys are the unique elements of the set and the values are all null
+unique: !!set
+  ? masala_chai
+  ? ginger_chai
+  ? cardamon_chai
+
