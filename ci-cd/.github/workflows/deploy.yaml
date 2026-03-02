@@ -3,7 +3,7 @@ name: Deploye Nodejs Application to digital ocean
 on:
   push:
     branches:
-      #- main
+      - main
 
 jobs:
   deploye:
@@ -19,7 +19,6 @@ jobs:
           host: ${{secrets.SSH_HOST}}
           username: root
           key: ${{secrets.SSH_KEY}}
-          scripts:
-            cd /root/learnDevOps/ci-cd
+          scripts: cd /root/learnDevOps/ci-cd
             git pull
             docker compose up -d --build
