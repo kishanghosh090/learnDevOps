@@ -1,21 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: mongo-deployment
   labels:
-    app: nginx
+    app: mongo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: mongo
   template:
     metadata:
       labels:
-        app: nginx
+        app: mongo
     spec:
       containers:
-        - name: nginx
-          image: nginx:1.14.2
+        - name: mongo
+          image: mongo:latest
           ports:
-            - containerPort: 80
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: mongo-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: mongo-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  selector:
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
