@@ -8,7 +8,6 @@ on:
 jobs:
   deploye:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -16,9 +15,12 @@ jobs:
       - name: Deploy Via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{secrets.SSH_HOST}}
+          host: ${{ secrets.SSH_HOST }}
           username: root
-          key: ${{secrets.SSH_KEY}}
-          scripts: cd /root/learnDevOps/ci-cd
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/FULLSTACK-PROJECT1-NINJA/pathifyy-backend
             git pull
-            docker compose up -d --build
+            cd infra/
+            docker compose down
+            docker compose up --build -d
