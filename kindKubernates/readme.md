@@ -36,4 +36,5 @@ kubectl exec -it nginx-pod -- bash
 kubectl create deployment nginx-deply --image=nginx --dry-run=client -o yaml > deploy.yaml
 kubectl apply -f deploy.yaml
 kubectl scale deploy nginx-deply --replicas=2
+ kubectl rollout history deployment/<deployment-name>
 ```

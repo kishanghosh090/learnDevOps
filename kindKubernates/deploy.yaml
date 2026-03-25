@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: nginx-deply
-  name: nginx-deply
+    app: nginx-deploy
+  name: nginx-deploy
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx-deply
+      app: nginx-deploy
   strategy: {}
   template:
     metadata:
       labels:
-        app: nginx-deply
+        app: nginx-deploy
     spec:
       containers:
         - image: nginx
