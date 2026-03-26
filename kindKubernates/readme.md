@@ -45,6 +45,7 @@ kubectl scale deploy nginx-deply --replicas=2
 kubectl expose --help
 kubectl expose deploy <deployment-name> --port=80
 kubectl get svc
+kubectl get svc nginx-svc -o yaml > svc.yaml
 kubectl describe svc <svc-name>
 kubectl port-forward <resource_type>/<resource_name> <local_port>:<remote_port>
 example:
