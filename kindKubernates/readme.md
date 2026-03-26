@@ -52,6 +52,8 @@ example:
 kubectl port-forward deploy/nginx-deploy 8080:80 [127.0.0.1:8080]
 kubectl port-forward --address 0.0.0.0 deploy/nginx-deploy 8080:80 [0.0.0.0:8080]
 '80' is the port which we expose from `kubectl expose deploy <deployment-name> --port=80` and it connect to the port which we mention in spec inside deploy.yaml containerPort: 80
+kubectl get ep
+
 ```
 
 - example
