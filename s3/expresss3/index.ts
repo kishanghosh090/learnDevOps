@@ -3,9 +3,15 @@ import { createPresignedUrlWithClient } from "./s3";
 import { randomUUIDv7 } from "bun";
 import { ProductModel } from "./schema";
 import { connectDB } from "./db";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  }),
+);
 app.use(express.urlencoded({ extended: true }));
 const PORT = 5003;
 
