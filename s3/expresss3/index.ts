@@ -54,6 +54,11 @@ app.get("/product/:key", async (req: Request, res: Response) => {
   });
   return res.status(200).json({ objectUrl });
 });
+
+app.get("/products", async (req: Request, res: Response) => {
+  const products = await ProductModel.find();
+  return res.json(products);
+});
 app.listen(PORT, async () => {
   await connectDB();
   console.log("db connected");
