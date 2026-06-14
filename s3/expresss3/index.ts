@@ -46,7 +46,14 @@ app.post("/product", async (req: Request, res: Response) => {
     return res.status(500).json({ error });
   }
 });
-
+app.get("/product/:key", async (req: Request, res: Response) => {
+  const key = req.params.key as string;
+  const objectUrl = await createPresignedUrlWithClient({
+    bucket: "ghoshkishanrana",
+    key,
+  });
+  return res.status(200).json({ objectUrl });
+});
 app.listen(PORT, async () => {
   await connectDB();
   console.log("db connected");
