@@ -30,7 +30,7 @@ export default function CreateProductPage() {
     setMime(mimeType);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!image) {
