@@ -41,6 +41,7 @@ export default function CreateProductPage() {
     try {
       // 1. Get Presigned URL
       const { url, fileName } = await getPresignedUrl();
+      console.log(fileName);
 
       // 2. Upload image directly to S3
       //   await axios.put(url, image, {
